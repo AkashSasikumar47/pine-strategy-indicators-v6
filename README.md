@@ -1,95 +1,86 @@
-<div>
-  <h1>📈 Custom Strategy Indicators V2</h1>
-  <p>Technical indicators are essential in 📈 stock market analysis and trading. They provide insights into price trends, momentum, and market sentiment, guiding informed decision-making. Proficiency in these indicators is vital for success in the dynamic and competitive financial markets.<p>
-</div>
+# Pine Strategy Indicators v6
 
-## 📈 Indicators Included
+## Overview
 
-The following indicators are included in this repository:
+This repository contains a collection of custom Pine Script indicators designed for TradingView. These indicators cover momentum analysis, volume tracking, trend identification, and alternative market analysis approaches. Each indicator is production-ready and can be integrated directly into TradingView charts.
 
-- 🌟 Awesome Oscillator
-- 📈 Cumulative Volume Index
-- 🚀 Hull Moving Average
-- 🌙 Moon Phases
-- 📊 Visible Average Price
+## Included Indicators
 
-## 📋 Indicator Descriptions
+### Awesome Oscillator
 
-### Awesome Oscillator 🌟
+**Purpose:** Measures market momentum by comparing short-term and long-term price movements.
+
+**Core Logic:** Calculates the difference between a 5-period simple moving average and a 34-period simple moving average of the median price (hl2). The histogram changes color based on momentum direction: green when increasing, red when decreasing.
+
+**Key Parameters:**
+- **Periods:** Fixed at 5 and 34 (not configurable)
+
 ![Awesome Oscillator](images/Awesome-Oscillator.png)
 
-The Awesome Oscillator is a momentum indicator that helps traders identify the strength of a trend by comparing the 5-period simple moving average (SMA) and the 34-period SMA. It consists of bars that change color to reflect bullish or bearish momentum.
+**Typical Use Case:** Identifying momentum shifts and potential trend reversals. Green bars indicate strengthening bullish momentum, while red bars signal strengthening bearish momentum. Works best when combined with trend-following indicators.
 
-#### Use Case 📈
-- Use the Awesome Oscillator to confirm the strength of a trend.
-- Combine it with other indicators to identify potential entry and exit points in a trade.
+### Cumulative Volume Index
 
-#### How to Use 📋
-1. **Installation**: Add the Awesome Oscillator indicator to your preferred trading platform (e.g., TradingView).
-2. **Configuration**: Customize the indicator settings, such as period lengths, to match your trading strategy.
-3. **Interpretation**: When the Awesome Oscillator bars change from red to green, it indicates a potential bullish trend, and vice versa.
+**Purpose:** Tracks the cumulative flow of volume between advancing and declining days.
 
-### Cumulative Volume Index 📈
+**Core Logic:** Continuously sums the difference between advancing volume and declining volume for a selected exchange. The indicator retrieves real-time volume data from major US exchanges (NYSE, NASDAQ, AMEX, ARCX) or aggregated market data (US Total, DJ).
+
+**Key Parameters:**
+- **Exchange:** NYSE, NASDAQ, AMEX, ARCX, US Total, DJ (default: NYSE)
+
 ![Cumulative Volume Index](images/Cumulative-Volume-Index.png)
 
-The Cumulative Volume Index (CVI) is a volume-based indicator that measures the cumulative total of volume on up days minus the cumulative total of volume on down days. It provides insights into the flow of money in and out of a security, helping traders gauge market sentiment.
+**Typical Use Case:** Measuring institutional money flow and market breadth. Rising CVI suggests accumulation, while falling CVI indicates distribution. Divergences between CVI and price can signal potential trend changes.
 
-#### Use Case 📈
-- Apply the Cumulative Volume Index to identify divergences between price trends and volume, which can signal potential reversals.
-- Monitor CVI changes to gauge investor sentiment.
+### Hull Moving Average
 
-#### How to Use 📋
-1. **Installation**: Add the Cumulative Volume Index indicator to your trading platform.
-2. **Interpretation**: Observe how CVI moves in conjunction with price movements. Divergences may indicate trend reversals.
+**Purpose:** Provides a responsive trend indicator with reduced lag compared to traditional moving averages.
 
-### Hull Moving Average 🚀
+**Core Logic:** Uses weighted moving averages of different periods combined with a square root smoothing function. The calculation applies: WMA(2 × WMA(src, period/2) - WMA(src, period), sqrt(period)).
+
+**Key Parameters:**
+- **Length:** Averaging period (default: 9)
+- **Source:** Price input (default: close)
+
 ![Hull Moving Average](images/Hull-Moving-Average.png)
 
-The Hull Moving Average (HMA) is a responsive moving average that reduces lag while smoothing out price data. It achieves this by using weighted moving averages of different timeframes, making it more sensitive to recent price changes.
+**Typical Use Case:** Trend identification with minimal lag. Price crossing above HMA suggests bullish conditions, while crossing below indicates bearish conditions. The smoothness makes it suitable for dynamic support/resistance levels.
 
-#### Use Case 📈
-- Utilize the Hull Moving Average to identify trending markets with reduced lag.
-- Combine it with other indicators to confirm trend direction.
+### Moon Phases
 
-#### How to Use 📋
-1. **Installation**: Add the Hull Moving Average indicator to your trading platform.
-2. **Configuration**: Adjust the HMA's period and smoothing options to align with your trading strategy.
-3. **Interpretation**: Look for crossovers between the HMA and price to identify potential entry and exit signals.
+**Purpose:** Displays lunar cycle phases on price charts for alternative market analysis.
 
-### Moon Phases 🌙
+**Core Logic:** Calculates astronomical moon phases using Julian date conversions and lunar anomaly formulas. Plots new moon and full moon events directly on the chart with background color transitions between waxing (new to full) and waning (full to new) periods.
+
+**Key Parameters:**
+- **Waxing Moon Color:** Display color for waxing phase (default: blue)
+- **Waning Moon Color:** Display color for waning phase (default: white)
+
 ![Moon Phases](images/Moon-Phases.png)
 
-Moon Phases is a unique indicator that overlays moon phase information on a trading chart. Some traders believe that lunar phases can influence market behavior and sentiment, making this indicator a tool for unconventional analysis.
+**Typical Use Case:** Exploring correlations between lunar cycles and market behavior. Some traders observe price patterns around new moon and full moon events. Note: Not supported on monthly timeframes.
 
-#### Use Case 📈
-- Apply Moon Phases to explore unconventional factors that may influence market sentiment.
-- Use it in conjunction with traditional indicators for a holistic analysis.
+### Visible Average Price
 
-#### How to Use 📋
-1. **Installation**: Add the Moon Phases indicator to your trading platform.
-2. **Interpretation**: Observe how market behavior aligns with lunar phases. Look for patterns or correlations.
+**Purpose:** Calculates the average price of all bars currently visible on the chart viewport.
 
-### Visible Average Price 📊
+**Core Logic:** Dynamically collects price values from all visible bars within the current chart view window and computes their arithmetic mean. The average updates automatically as the user scrolls or zooms the chart.
+
+**Key Parameters:**
+- **Source:** Price input (default: close)
+
 ![Visible Average Price](images/VisibleAverage-Price.png)
 
-The Visible Average Price (VAP) indicator displays a horizontal histogram on the chart, representing the volume profile at different price levels. It helps traders identify areas of significant buying or selling interest.
+**Typical Use Case:** Quick reference for the mean price level within the visible timeframe. Useful for identifying whether current price is trading above or below the visible average, helping assess local market positioning.
 
-#### Use Case 📈
-- Use the Visible Average Price to identify key support and resistance levels based on volume profiles.
-- Combine it with traditional price-based analysis for a comprehensive view.
+## How to Use
 
-#### How to Use 📋
-1. **Installation**: Add the Visible Average Price indicator to your trading platform.
-2. **Configuration**: Adjust the VAP settings to match your preferred timeframes.
-3. **Interpretation**: Look for areas where the VAP histogram is concentrated, as they indicate significant price levels.
+1. Open the TradingView platform and navigate to the Pine Editor
+2. Copy the Pine Script code from the desired indicator file in this repository
+3. Paste the code into a new Pine Editor script
+4. Save and add the indicator to your chart
+5. Customize parameters through the indicator settings panel as needed
 
-## 🚀 Usage and Instructions
+## Disclaimer
 
-To use these indicators:
-1. Open the TradingView Pine Script editor.
-2. Copy the Pine Script code of the desired indicator from this repository.
-3. Paste the code in the Pine Script editor.
-4. Customize the indicator's parameters as needed.
-5. Apply the indicator to your chart to visualize its signals.
-
-Feel free to explore, modify, and integrate these indicators into your trading strategies. Happy trading!
+These indicators are provided for educational and informational purposes only. They are not financial advice and should not be used as the sole basis for trading decisions. Always conduct your own research and consider consulting with a financial professional before trading.
