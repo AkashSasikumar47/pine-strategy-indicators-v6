@@ -1,0 +1,10 @@
+//@version=6
+indicator("Visible Average Price", "VAP", overlay = true)
+
+source = input.source(close, "Source")
+
+var values = array.new<float>()
+if time >= chart.left_visible_bar_time and time <= chart.right_visible_bar_time
+    values.unshift(source)
+
+plot(values.avg(), "Avg Price", #787B86, trackprice = true, show_last = 1, offset = -100000)

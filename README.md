@@ -1,86 +1,100 @@
 # Pine Strategy Indicators v6
 
-## Overview
+Five open-source TradingView indicators written in Pine Script v6: Awesome Oscillator, Cumulative Volume Index, Hull Moving Average, Moon Phases and Visible Average Price. Part of [GAINZ](https://gainz-trading-indicators.vercel.app), 35 indicators across seven collections.
 
-This repository contains a collection of custom Pine Script indicators designed for TradingView. These indicators cover momentum analysis, volume tracking, trend identification, and alternative market analysis approaches. Each indicator is production-ready and can be integrated directly into TradingView charts.
+| Indicator                                           | Type     | Script                                                                    |
+| --------------------------------------------------- | -------- | ------------------------------------------------------------------------- |
+| [Awesome Oscillator](#awesome-oscillator)           | Momentum | [`awesome-oscillator.pine`](indicators/awesome-oscillator.pine)           |
+| [Cumulative Volume Index](#cumulative-volume-index) | Volume   | [`cumulative-volume-index.pine`](indicators/cumulative-volume-index.pine) |
+| [Hull Moving Average](#hull-moving-average)         | Trend    | [`hull-moving-average.pine`](indicators/hull-moving-average.pine)         |
+| [Moon Phases](#moon-phases)                         | Levels   | [`moon-phases.pine`](indicators/moon-phases.pine)                         |
+| [Visible Average Price](#visible-average-price)     | Levels   | [`visible-average-price.pine`](indicators/visible-average-price.pine)     |
 
-## Included Indicators
+## Awesome Oscillator
 
-### Awesome Oscillator
+![Awesome Oscillator](images/awesome-oscillator.png)
 
-**Purpose:** Measures market momentum by comparing short-term and long-term price movements.
+The gap between a 5-bar and a 34-bar average of each bar's midpoint, drawn as a histogram.
 
-**Core Logic:** Calculates the difference between a 5-period simple moving average and a 34-period simple moving average of the median price (hl2). The histogram changes color based on momentum direction: green when increasing, red when decreasing.
+Green bars mean momentum is building, red bars mean it is fading. Alerts fire the moment the colour flips.
 
-**Key Parameters:**
-- **Periods:** Fixed at 5 and 34 (not configurable)
+| Setting | Default       |
+| ------- | ------------- |
+| Fast    | 5             |
+| Slow    | 34            |
+| Alerts  | Colour change |
 
-![Awesome Oscillator](images/Awesome-Oscillator.png)
+Based on TradingView's built-in Awesome Oscillator indicator.
 
-**Typical Use Case:** Identifying momentum shifts and potential trend reversals. Green bars indicate strengthening bullish momentum, while red bars signal strengthening bearish momentum. Works best when combined with trend-following indicators.
+## Cumulative Volume Index
 
-### Cumulative Volume Index
+![Cumulative Volume Index](images/cumulative-volume-index.png)
 
-**Purpose:** Tracks the cumulative flow of volume between advancing and declining days.
+A breadth line: the running total of volume in advancing stocks minus volume in declining ones, for the exchange you pick.
 
-**Core Logic:** Continuously sums the difference between advancing volume and declining volume for a selected exchange. The indicator retrieves real-time volume data from major US exchanges (NYSE, NASDAQ, AMEX, ARCX) or aggregated market data (US Total, DJ).
+When it rises with price, the rally has broad support. When price climbs and the CVI doesn't, fewer stocks are carrying the move.
 
-**Key Parameters:**
-- **Exchange:** NYSE, NASDAQ, AMEX, ARCX, US Total, DJ (default: NYSE)
+| Setting  | Default                    |
+| -------- | -------------------------- |
+| Exchange | NYSE                       |
+| Also     | NASDAQ, AMEX, ARCX, US, DJ |
 
-![Cumulative Volume Index](images/Cumulative-Volume-Index.png)
+Based on TradingView's built-in Cumulative Volume Index indicator.
 
-**Typical Use Case:** Measuring institutional money flow and market breadth. Rising CVI suggests accumulation, while falling CVI indicates distribution. Divergences between CVI and price can signal potential trend changes.
+## Hull Moving Average
 
-### Hull Moving Average
+![Hull Moving Average](images/hull-moving-average.png)
 
-**Purpose:** Provides a responsive trend indicator with reduced lag compared to traditional moving averages.
+A weighted average built to cut lag almost to nothing while staying smooth.
 
-**Core Logic:** Uses weighted moving averages of different periods combined with a square root smoothing function. The calculation applies: WMA(2 × WMA(src, period/2) - WMA(src, period), sqrt(period)).
+Its slope is the signal. Turning up, the short-term trend is up. Turning down, it's down.
 
-**Key Parameters:**
-- **Length:** Averaging period (default: 9)
-- **Source:** Price input (default: close)
+| Setting | Default |
+| ------- | ------- |
+| Length  | 9       |
+| Source  | Close   |
 
-![Hull Moving Average](images/Hull-Moving-Average.png)
+Based on TradingView's built-in Hull Moving Average indicator.
 
-**Typical Use Case:** Trend identification with minimal lag. Price crossing above HMA suggests bullish conditions, while crossing below indicates bearish conditions. The smoothness makes it suitable for dynamic support/resistance levels.
+## Moon Phases
 
-### Moon Phases
+![Moon Phases](images/moon-phases.png)
 
-**Purpose:** Displays lunar cycle phases on price charts for alternative market analysis.
+Marks every new moon and full moon on the chart and tints the waxing and waning halves of each cycle.
 
-**Core Logic:** Calculates astronomical moon phases using Julian date conversions and lunar anomaly formulas. Plots new moon and full moon events directly on the chart with background color transitions between waxing (new to full) and waning (full to new) periods.
+For traders who study cycles and sentiment. It's a calendar, not a signal: use it to see whether turns line up with the moon.
 
-**Key Parameters:**
-- **Waxing Moon Color:** Display color for waxing phase (default: blue)
-- **Waning Moon Color:** Display color for waning phase (default: white)
+| Setting | Default |
+| ------- | ------- |
+| Waxing  | Blue    |
+| Waning  | White   |
 
-![Moon Phases](images/Moon-Phases.png)
+Based on TradingView's built-in Moon Phases indicator.
 
-**Typical Use Case:** Exploring correlations between lunar cycles and market behavior. Some traders observe price patterns around new moon and full moon events. Note: Not supported on monthly timeframes.
+## Visible Average Price
 
-### Visible Average Price
+![Visible Average Price](images/visible-average-price.png)
 
-**Purpose:** Calculates the average price of all bars currently visible on the chart viewport.
+The average price of every bar on your screen, redrawn as you scroll and zoom.
 
-**Core Logic:** Dynamically collects price values from all visible bars within the current chart view window and computes their arithmetic mean. The average updates automatically as the user scrolls or zooms the chart.
+A quick fair-value line for the window you're looking at. Above it, price is strong for that view; below it, weak.
 
-**Key Parameters:**
-- **Source:** Price input (default: close)
+| Setting | Default |
+| ------- | ------- |
+| Source  | Close   |
 
-![Visible Average Price](images/VisibleAverage-Price.png)
+Based on TradingView's built-in Visible Average Price indicator.
 
-**Typical Use Case:** Quick reference for the mean price level within the visible timeframe. Useful for identifying whether current price is trading above or below the visible average, helping assess local market positioning.
+## How to use
 
-## How to Use
-
-1. Open the TradingView platform and navigate to the Pine Editor
-2. Copy the Pine Script code from the desired indicator file in this repository
-3. Paste the code into a new Pine Editor script
-4. Save and add the indicator to your chart
-5. Customize parameters through the indicator settings panel as needed
+1. Open the indicator's `.pine` file in `indicators/` and copy the code.
+2. In TradingView, open the Pine Editor, paste the code and save it.
+3. Click **Add to chart**, then change the defaults in the indicator's settings.
 
 ## Disclaimer
 
-These indicators are provided for educational and informational purposes only. They are not financial advice and should not be used as the sole basis for trading decisions. Always conduct your own research and consider consulting with a financial professional before trading.
+For learning and research. Indicators describe what price has done, not what it will do. Nothing here is financial advice.
+
+## License
+
+[MIT](LICENSE). Indicators based on someone else's work keep their original author's terms.
