@@ -1,0 +1,17 @@
+//@version=6
+indicator("Cumulative Volume Index", "CVI", overlay = false, format = format.volume)
+
+exchange = input.string("NYSE", "Exchange", options = ["NYSE", "NASDAQ", "AMEX", "ARCX", "US Total", "DJ"])
+
+suffix = switch exchange
+    "NASDAQ" => "NQ"
+    "AMEX" => "AM"
+    "ARCX" => "AX"
+    "US Total" => "US"
+    "DJ" => "DJ"
+    => "NY"
+
+advancing = request.security("UPVOL." + suffix, timeframe.period, close)
+declining = request.security("DNVOL." + suffix, timeframe.period, close)
+
+plot(ta.cum(advancing - declining), "CVI")
